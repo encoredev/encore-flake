@@ -13,9 +13,14 @@
       ];
     in
     {
-      packages = eachSystem (system: {
-        encore = nixpkgs.legacyPackages.${system}.callPackage ./encore.nix { };
-      });
+      packages = eachSystem (system:
+        let
+          encore = nixpkgs.legacyPackages.${system}.callPackage ./encore.nix { };
+        in
+        {
+          encore = encore;
+          default = encore;
+        });
 
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
     };
