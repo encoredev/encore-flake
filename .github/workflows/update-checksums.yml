@@ -1,0 +1,27 @@
+name: Update checksums
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - version.txt
+
+jobs:
+  update-checksums:
+    name: Update checksums
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code checkout
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v14
+
+      - name: Update checksums
+        id: update-checksums
+        run: .github/scripts/update-checksums.bash
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: checksums at v${{ steps.update-checksums.outputs.version }}"
+          file_pattern: "*"
