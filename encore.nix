@@ -1,6 +1,9 @@
 { stdenv, lib, fetchurl, autoPatchelfHook }:
 let
-  release = import ./release.nix;
+  release = {
+    version = builtins.readFile ./version.txt;
+    checksums = import ./checksums.nix;
+  };
 in
 stdenv.mkDerivation rec
 {
