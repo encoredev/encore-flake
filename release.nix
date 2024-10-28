@@ -1,11 +1,11 @@
 # Auto-generated file, do not edit
 {
-  version = "1.42.4-develop+nixflake";
+  version = "1.43.5";
 
   checksums = {
-    "darwin_arm64" = "fdbc7d0f66da0b959b2227f82710f4211623b0d4bf2ad46fd2a77f1101c5dbe9";
-    "darwin_amd64" = "2197b3f7c0e16ec44bb2d3201797fafa50d7b3a77fd7630f543425fdccc2cbb6";
-    "linux_arm64" = "00a8091a2e82715a8975db68549fdbfe646afc134701711058cace9dcc632f5d";
-    "linux_amd64" = "f60030bfa370e22ad2481fea0f128bb0cacf701c26f0b007f3c359aa010492d5";
+    "darwin_arm64" = "b5b5f8e8d4a221aad00aafb590cf3560dd7cd4541da853e77e2655fd98e52320";
+    "darwin_amd64" = "d92a0fe69380f5eb137057e1099209ebd56dcace7f0931916d7b6cff6201e47b";
+    "linux_arm64" = "ebd4c5b3a208c4f8bd9f4b32589ebbbaaaa9542595346bd40c8b939c79c09ba9";
+    "linux_amd64" = "0eccbca71403de529779b596a3d4903904a599352956db38e89285c4e59061d2";
   };
 }
