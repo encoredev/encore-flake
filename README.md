@@ -1,4 +1,4 @@
-# encore-flake
+# :snowflake: encore-flake
 
 A flake for simplifying installation of the released encore binaries on nix systems.
 
