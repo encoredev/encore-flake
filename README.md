@@ -23,12 +23,3 @@ You can then keep it up to date by running
 ```
 $ nix flake lock --update-input encore
 ```
-
-Add it as an overlay to nixpkgs
-```nix
-encore-overlay = final: _prev: {
-  encore = encore.packages.${final.system}.encore;
-};
-
-nixpkgs.overlays = [ encore-overlay ];
-```
