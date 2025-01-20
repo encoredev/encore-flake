@@ -21,5 +21,5 @@ Add as an input in your nix configuration flake, and add as an overlay to nixpkg
 
 You can then keep it up to date by running 
 ```
-$ nix flake lock --update-input encore
+$ nix flake update encore
 ```
