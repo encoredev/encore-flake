@@ -3,7 +3,11 @@
 
   inputs.nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
-  outputs = { self, nixpkgs }:
+  outputs =
+    { self
+    , nixpkgs
+    ,
+    }:
     let
       eachSystem = nixpkgs.lib.genAttrs [
         "x86_64-linux"
@@ -23,5 +27,11 @@
         });
 
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
+
+      homeModules.default = { pkgs, ... } @ args:
+        import ./hm-module.nix ({
+          inherit (self.packages.${pkgs.system}) encore;
+        }
+        // args);
     };
 }
