@@ -15,12 +15,31 @@ Add as an input in your nix configuration flake
 ```nix
 {
   inputs = {
-    # other inputs...
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    flake-utils.url = "github:numtide/flake-utils"
     encore = {
       url = "github:encoredev/encore-flake";
       # optional
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # other inputs...
+  };
+
+  outputs = { self, nixpkgs, flake-utils, encore, ... }:
+    flake-utils.lib.eachDefaultSystem (system:
+      let
+        pkgs = import nixpkgs { inherit system; };
+        encorePkg = encore.packages.${system}.default;
+      in {
+        devShells.default = pkgs.mkShell {
+          buildInputs = with pkgs; [
+            encorePkg
+            git
+            go
+            # other outputs...
+          ];
+       };
+     });
   };
 }
 ```
