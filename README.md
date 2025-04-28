@@ -15,6 +15,39 @@ Add as an input in your nix configuration flake
 ```nix
 {
   inputs = {
+    # other inputs...
+    encore = {
+      url = "github:encoredev/encore-flake";
+      # optional
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
+}
+```
+
+### Only the CLI
+
+Import `encore.packages.default` into your nixos configuration
+
+```nix
+# Home manager
+home.packages = [
+  inputs.encore.packages.${pkgs.system}.encore
+];
+
+# NixOS configuration
+environment.systemPackages = [
+  inputs.encore.packages.${pkgs.system}.encore
+];
+```
+
+### In a Development Shell
+
+Add a `flake.nix` file in to your Encore project directory and include it in the available commands for that project/directory using the `outputs` function.
+
+```nix
+{
+  inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils"
     encore = {
@@ -39,26 +72,11 @@ Add as an input in your nix configuration flake
             # other outputs...
           ];
        };
-     });
-  };
+     });  
 }
 ```
 
-### Only the CLI
-
-Import `encore.packages.default` into your nixos configuration
-
-```nix
-# Home manager
-home.packages = [
-  inputs.encore.packages.${pkgs.system}.encore
-];
-
-# NixOS configuration
-environment.systemPackages = [
-  inputs.encore.packages.${pkgs.system}.encore
-];
-```
+then run `nix develop` to enter the development shell for that project directory.
 
 ### With Home manager
 
