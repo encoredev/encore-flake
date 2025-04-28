@@ -76,7 +76,7 @@ Add a `flake.nix` file in to your Encore project folder and include `encore` in 
 }
 ```
 
-then run `nix develop`from the project folder to enter the development shell for your project that will now include the `encore` CLI in the tool chain.
+then run `nix develop` from the project folder to enter the development shell for your project that will now include the `encore` CLI in the tool chain.
 
 ### With Home manager
 
