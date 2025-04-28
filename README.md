@@ -43,7 +43,7 @@ environment.systemPackages = [
 
 ### In a Development Shell
 
-Add a `flake.nix` file in to your Encore project directory and include it in the available commands for that project/directory using the `outputs` function.
+Add a `flake.nix` file in to your Encore project folder and include `encore` in the available command line tools for that project/folder using the `outputs` function.
 
 ```nix
 {
@@ -76,7 +76,7 @@ Add a `flake.nix` file in to your Encore project directory and include it in the
 }
 ```
 
-then run `nix develop` to enter the development shell for that project directory.
+then run `nix develop`from the project folder to enter the development shell for your project that will now include the `encore` CLI in the tool chain.
 
 ### With Home manager
 
