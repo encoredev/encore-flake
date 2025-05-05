@@ -1,4 +1,4 @@
-{ stdenv, lib, fetchurl, autoPatchelfHook }:
+{ stdenv, lib, fetchurl, autoPatchelfHook, libtiff }:
 let
   release = import ./release.nix;
 in
@@ -26,7 +26,10 @@ stdenv.mkDerivation rec
     autoPatchelfHook
   ];
 
-  buildInputs = [ ];
+  buildInputs = [
+    stdenv.cc.cc.lib
+    libtiff
+  ];
 
   unpackPhase = ''
     tar -C ./ -xzf ${src}
