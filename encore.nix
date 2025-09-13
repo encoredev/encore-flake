@@ -22,11 +22,11 @@ stdenv.mkDerivation rec
 
   dontBuild = true;
 
-  nativeBuildInputs = [
+  nativeBuildInputs = lib.optionals stdenv.isLinux [
     autoPatchelfHook
   ];
 
-  buildInputs = [
+  buildInputs = lib.optionals stdenv.isLinux [
     stdenv.cc.cc.lib
     libtiff
   ];
