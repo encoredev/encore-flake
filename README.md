@@ -32,12 +32,12 @@ Import `encore.packages.default` into your nixos configuration
 ```nix
 # Home manager
 home.packages = [
-  inputs.encore.packages.${pkgs.system}.encore
+  inputs.encore.packages.${pkgs.stdenv.hostPlatform.system}.encore
 ];
 
 # NixOS configuration
 environment.systemPackages = [
-  inputs.encore.packages.${pkgs.system}.encore
+  inputs.encore.packages.${pkgs.stdenv.hostPlatform.system}.encore
 ];
 ```
 
