@@ -30,7 +30,7 @@
 
       homeModules.default = { pkgs, ... } @ args:
         import ./hm-module.nix ({
-          inherit (self.packages.${pkgs.system}) encore;
+          inherit (self.packages.${pkgs.stdenv.hostPlatform.system}) encore;
         }
         // args);
     };
