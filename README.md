@@ -18,7 +18,8 @@ Add as an input in your nix configuration flake
     # other inputs...
     encore = {
       url = "github:encoredev/encore-flake";
-      # optional
+      # recommended: builds encore against your own nixpkgs instead of
+      # pulling a second one into your flake.lock
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -41,6 +42,26 @@ environment.systemPackages = [
 ];
 ```
 
+### With an overlay
+
+An overlay is also available:
+
+```nix
+{
+  nixpkgs.overlays = [ inputs.encore.overlays.default ];
+}
+```
+
+`encore` is then available as an ordinary package:
+
+```nix
+# NixOS configuration
+environment.systemPackages = [ pkgs.encore ];
+
+# Home manager
+home.packages = [ pkgs.encore ];
+```
+
 ### In a Development Shell
 
 Add a `flake.nix` file in to your Encore project folder and include `encore` in the available command line tools for that project/folder using the `outputs` function.
@@ -49,10 +70,10 @@ Add a `flake.nix` file in to your Encore project folder and include `encore` in 
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-    flake-utils.url = "github:numtide/flake-utils"
+    flake-utils.url = "github:numtide/flake-utils";
     encore = {
       url = "github:encoredev/encore-flake";
-      # optional
+      # recommended, see above
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # other inputs...

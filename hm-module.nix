@@ -13,11 +13,14 @@ in
 
     settings = {
       browser = mkOption {
-        type = types.enum [ "auto" "never" "always" ];
-        default = "always";
+        type = types.nullOr (types.enum [ "auto" "never" "always" ]);
+        default = null;
         description = ''
           Whether to open the local development dashboard in the browser on startup.
           Can be "auto", "never", or "always".
+
+          When null, no config file is written and Encore's own default ("auto")
+          applies.
         '';
       };
     };
@@ -28,9 +31,11 @@ in
       encore
     ];
 
-    xdg.configFile."encore/config".source = (pkgs.formats.toml { }).generate "encore-config" {
-      run = {
-        browser = cfg.settings.browser;
+    xdg.configFile."encore/config" = mkIf (cfg.settings.browser != null) {
+      source = (pkgs.formats.toml { }).generate "encore-config" {
+        run = {
+          browser = cfg.settings.browser;
+        };
       };
     };
   };

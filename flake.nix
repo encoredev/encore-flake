@@ -17,16 +17,23 @@
       ];
     in
     {
+      # Lets consumers build encore with their own nixpkgs instead of the one
+      # pinned here. Also the single definition of the package: the `packages`
+      # output below is derived from it.
+      overlays.default = final: prev: {
+        encore = final.callPackage ./encore.nix { };
+      };
+
       packages = eachSystem (system:
         let
-          encore = nixpkgs.legacyPackages.${system}.callPackage ./encore.nix { };
+          encore = (nixpkgs.legacyPackages.${system}.extend self.overlays.default).encore;
         in
         {
           encore = encore;
           default = encore;
         });
 
-      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
+      formatter = eachSystem (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
 
       homeModules.default = { pkgs, ... } @ args:
         import ./hm-module.nix ({

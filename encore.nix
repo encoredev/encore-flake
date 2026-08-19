@@ -1,23 +1,22 @@
-{ stdenv, lib, fetchurl, autoPatchelfHook, libtiff }:
+{ stdenv, lib, fetchurl, autoPatchelfHook }:
 let
   release = import ./release.nix;
+
+  platform = {
+    "x86_64-linux" = "linux_amd64";
+    "x86_64-darwin" = "darwin_amd64";
+    "aarch64-linux" = "linux_arm64";
+    "aarch64-darwin" = "darwin_arm64";
+  }.${stdenv.hostPlatform.system};
 in
 stdenv.mkDerivation rec
 {
   pname = "encore";
   version = release.version;
-  system = {
-    "x86_64-linux" = "linux_amd64";
-    "x86_64-darwin" = "darwin_amd64";
-    "aarch64-linux" = "linux_arm64";
-    "aarch64-darwin" = "darwin_arm64";
-  }.${stdenv.targetPlatform.system};
-
-  checksum = release.checksums.${system};
 
   src = fetchurl {
-    url = "https://d2f391esomvqpi.cloudfront.net/${pname}-${version}-${system}.tar.gz";
-    sha256 = checksum;
+    url = "https://d2f391esomvqpi.cloudfront.net/${pname}-${version}-${platform}.tar.gz";
+    sha256 = release.checksums.${platform};
   };
 
   dontBuild = true;
@@ -26,9 +25,12 @@ stdenv.mkDerivation rec
     autoPatchelfHook
   ];
 
-  buildInputs = lib.optionals stdenv.hostPlatform.isLinux [
-    stdenv.cc.cc.lib
-    libtiff
+  # The only file needing these is encore-go/src/debug/elf/testdata/libtiffxx.so_,
+  # a Go stdlib test fixture. Ignoring them keeps libtiff and libstdc++ out of the
+  # runtime closure instead of patching a test artifact against them.
+  autoPatchelfIgnoreMissingDeps = [
+    "libtiff.so.6"
+    "libstdc++.so.6"
   ];
 
   unpackPhase = ''
