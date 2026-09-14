@@ -9,6 +9,9 @@
     ,
     }:
     let
+      alphaRelease = import ./release-alpha.nix;
+      betaRelease = import ./release-beta.nix;
+
       eachSystem = nixpkgs.lib.genAttrs [
         "x86_64-linux"
         "x86_64-darwin"
@@ -20,17 +23,36 @@
       # Lets consumers build encore with their own nixpkgs instead of the one
       # pinned here. Also the single definition of the package: the `packages`
       # output below is derived from it.
-      overlays.default = final: prev: {
-        encore = final.callPackage ./encore.nix { };
-      };
+      overlays.default = final: prev:
+        {
+          encore = final.callPackage ./encore.nix { };
+        }
+        // nixpkgs.lib.optionalAttrs (alphaRelease != null) {
+          encore-alpha = final.callPackage ./encore-v2.nix {
+            channel = "alpha";
+            release = alphaRelease;
+          };
+        }
+        // nixpkgs.lib.optionalAttrs (betaRelease != null) {
+          encore-beta = final.callPackage ./encore-v2.nix {
+            channel = "beta";
+            release = betaRelease;
+          };
+        };
 
       packages = eachSystem (system:
         let
-          encore = (nixpkgs.legacyPackages.${system}.extend self.overlays.default).encore;
+          pkgs = nixpkgs.legacyPackages.${system}.extend self.overlays.default;
         in
         {
-          encore = encore;
-          default = encore;
+          encore = pkgs.encore;
+          default = pkgs.encore;
+        }
+        // nixpkgs.lib.optionalAttrs (alphaRelease != null) {
+          encore-alpha = pkgs.encore-alpha;
+        }
+        // nixpkgs.lib.optionalAttrs (betaRelease != null) {
+          encore-beta = pkgs.encore-beta;
         });
 
       formatter = eachSystem (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);

@@ -42,6 +42,37 @@ environment.systemPackages = [
 ];
 ```
 
+### Alpha and beta releases
+
+Alpha and beta are independent v2 release channels. Once a channel has its first
+published release, run it with:
+
+```shell
+nix run github:encoredev/encore-flake#encore-alpha -- --version
+nix run github:encoredev/encore-flake#encore-beta -- --version
+```
+
+Install them together with stable using:
+
+```nix
+home.packages = with inputs.encore.packages.${pkgs.stdenv.hostPlatform.system}; [
+  encore
+  encore-alpha
+  encore-beta
+];
+```
+
+The commands are `encore`, `encore-alpha`, and `encore-beta`, respectively. Each
+v2 package keeps its Go toolchain, runtimes, and SDK modules in its own `libexec`
+directory. The overlay exposes the same package names; the default package and
+Home Manager module continue to select stable.
+
+`release.nix`, `release-alpha.nix`, and `release-beta.nix` track the channels
+separately. Releaser updates only the selected channel's version and checksums
+after uploading its archives. A `null` release record means the channel has not
+published yet and its package is omitted from the flake and overlay outputs.
+Update your flake lock to receive new releases.
+
 ### With an overlay
 
 An overlay is also available:
