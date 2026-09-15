@@ -6,7 +6,7 @@
 , channel
 , release
 }:
-assert builtins.elem channel [ "alpha" "beta" ];
+assert builtins.elem channel [ "alpha" "beta" "nightly" ];
 let
   platform = {
     "x86_64-linux" = { checksum = "linux_amd64"; target = "x86_64-unknown-linux-gnu"; };
