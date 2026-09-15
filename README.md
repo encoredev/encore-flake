@@ -42,14 +42,15 @@ environment.systemPackages = [
 ];
 ```
 
-### Alpha and beta releases
+### Alpha, beta, and nightly releases
 
-Alpha and beta are independent v2 release channels. Once a channel has its first
+Alpha, beta, and nightly are independent v2 release channels. Once a channel has its first
 published release, run it with:
 
 ```shell
 nix run github:encoredev/encore-flake#encore-alpha -- --version
 nix run github:encoredev/encore-flake#encore-beta -- --version
+nix run github:encoredev/encore-flake#encore-nightly -- --version
 ```
 
 Install them together with stable using:

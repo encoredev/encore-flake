@@ -11,6 +11,7 @@
     let
       alphaRelease = import ./release-alpha.nix;
       betaRelease = import ./release-beta.nix;
+      nightlyRelease = import ./release-nightly.nix;
 
       eachSystem = nixpkgs.lib.genAttrs [
         "x86_64-linux"
@@ -38,6 +39,12 @@
             channel = "beta";
             release = betaRelease;
           };
+        }
+        // nixpkgs.lib.optionalAttrs (nightlyRelease != null) {
+          encore-nightly = final.callPackage ./encore-v2.nix {
+            channel = "nightly";
+            release = nightlyRelease;
+          };
         };
 
       packages = eachSystem (system:
@@ -53,6 +60,9 @@
         }
         // nixpkgs.lib.optionalAttrs (betaRelease != null) {
           encore-beta = pkgs.encore-beta;
+        }
+        // nixpkgs.lib.optionalAttrs (nightlyRelease != null) {
+          encore-nightly = pkgs.encore-nightly;
         });
 
       formatter = eachSystem (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
