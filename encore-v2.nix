@@ -1,6 +1,7 @@
 { stdenv
 , lib
 , fetchurl
+, zlib
 , autoPatchelfHook
 , makeWrapper
 , channel
@@ -28,7 +29,7 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ makeWrapper ]
     ++ lib.optionals stdenv.hostPlatform.isLinux [ autoPatchelfHook ];
-  buildInputs = lib.optionals stdenv.hostPlatform.isLinux [ stdenv.cc.cc.lib ];
+  buildInputs = lib.optionals stdenv.hostPlatform.isLinux [ stdenv.cc.cc.lib zlib ];
 
   # Go stdlib ELF test fixtures contain dependencies that are not used at runtime.
   autoPatchelfIgnoreMissingDeps = [ "libtiff.so.6" "libstdc++.so.6" ];
