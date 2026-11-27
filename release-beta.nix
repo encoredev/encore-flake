@@ -1,11 +1,11 @@
 # Auto-generated file, do not edit
 {
-  version = "2.0.0-beta.14";
+  version = "2.0.0-beta.15";
 
   checksums = {
-    "darwin_arm64" = "16ca24b948cc0a46097f14b5ab9983d82161c51caf0635807be52f98aa979856";
-    "darwin_amd64" = "d98134cd6b4f014fc85f6c03a34ac02dd969580188de57b4b645fc5f5ea7db02";
-    "linux_arm64" = "c02e1263fdf93d48d8ffee55b98867899a2dbd020ee3b1bd16ee43868658eaed";
-    "linux_amd64" = "308b76f3a8ea8e786ec5a5634808f038f47205459134617254066e51888bbb2b";
+    "darwin_arm64" = "c1f82860586d53f7778ed4cb95c5a5ea6f8ba2c4a76fe679a900890760fe1035";
+    "darwin_amd64" = "4c30479ae730423d8ac9a0a35de8779db95fc50b52e851e8218ef7ca199ff61b";
+    "linux_arm64" = "6028b7b6d9fa1f3a1810c090ee57da9c480f86729fffa354a47ebbb41d3379d3";
+    "linux_amd64" = "b8af9fbf7ae3781364be362779c79b693f442e4d5e8e19aaee50b948388ebf57";
   };
 }
